@@ -19,6 +19,8 @@
 		711FABB41FBA0FFC0074927B /* GameViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711FABB31FBA0FFC0074927B /* GameViewManager.swift */; };
 		711FABB61FBA12AF0074927B /* CategoryBitMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711FABB51FBA12AF0074927B /* CategoryBitMask.swift */; };
 		711FABB81FBA14B80074927B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711FABB71FBA14B80074927B /* Constants.swift */; };
+		711FABBB1FBB844B0074927B /* Sparks.sks in Resources */ = {isa = PBXBuildFile; fileRef = 711FABB91FBB844B0074927B /* Sparks.sks */; };
+		711FABBC1FBB844B0074927B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 711FABBA1FBB844B0074927B /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,8 @@
 		711FABB31FBA0FFC0074927B /* GameViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewManager.swift; sourceTree = "<group>"; };
 		711FABB51FBA12AF0074927B /* CategoryBitMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryBitMask.swift; sourceTree = "<group>"; };
 		711FABB71FBA14B80074927B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		711FABB91FBB844B0074927B /* Sparks.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Sparks.sks; sourceTree = "<group>"; };
+		711FABBA1FBB844B0074927B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +89,8 @@
 				711FABA01FBA0E4B0074927B /* Main.storyboard */,
 				711FAB981FBA0E4B0074927B /* GameScene.sks */,
 				711FAB9A1FBA0E4B0074927B /* Actions.sks */,
+				711FABB91FBB844B0074927B /* Sparks.sks */,
+				711FABBA1FBB844B0074927B /* Assets.xcassets */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -169,8 +175,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				711FABA21FBA0E4B0074927B /* Main.storyboard in Resources */,
+				711FABBB1FBB844B0074927B /* Sparks.sks in Resources */,
 				711FAB991FBA0E4B0074927B /* GameScene.sks in Resources */,
 				711FABA41FBA0E4B0074927B /* Assets.xcassets in Resources */,
+				711FABBC1FBB844B0074927B /* Assets.xcassets in Resources */,
 				711FABA71FBA0E4B0074927B /* LaunchScreen.storyboard in Resources */,
 				711FAB9B1FBA0E4B0074927B /* Actions.sks in Resources */,
 			);

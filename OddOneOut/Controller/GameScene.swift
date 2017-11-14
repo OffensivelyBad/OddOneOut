@@ -9,7 +9,7 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, GameLogicDelegate {
     
     var viewManager: GameViewManager?
     var logicManager: GameLogicManager?
@@ -18,12 +18,17 @@ class GameScene: SKScene {
         
         // Create the logicManager to keep game state and rules
         self.logicManager = GameLogicManager()
+        self.logicManager?.delegate = self
         
         // Create the viewManager to manage the sprites
         self.viewManager = GameViewManager(scene: self)
         self.viewManager?.setupInitialScene()
-        self.viewManager?.createLevel(self.logicManager?.level ?? 1)
+        createLevel(self.logicManager?.level ?? 1)
 
+    }
+    
+    func createLevel(_ level: Int) {
+        self.viewManager?.createLevel(level)
     }
     
     override func willMove(from view: SKView) {
@@ -34,21 +39,13 @@ class GameScene: SKScene {
         self.logicManager = nil
     }
     
-    
-    func touchDown(atPoint pos : CGPoint) {
-
-    }
-    
-    func touchMoved(toPoint pos : CGPoint) {
-
-    }
-    
-    func touchUp(atPoint pos : CGPoint) {
-
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-
+        
+        guard let touch = touches.first else { return }
+        let location = touch.location(in: self)
+        let nodes = self.nodes(at: location)
+        self.logicManager?.checkForCorrectNodeFrom(nodes)
+        
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
