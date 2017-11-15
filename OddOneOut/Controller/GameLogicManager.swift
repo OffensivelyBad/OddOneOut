@@ -11,12 +11,18 @@ import SpriteKit
 
 protocol GameLogicDelegate {
     func createLevel(_ level: Int)
+    func setScore(to score: Int)
 }
 
 class GameLogicManager {
     
-    var level = 1
     var delegate: GameLogicDelegate?
+    var level = 1
+    var score = 0 {
+        didSet {
+            self.delegate?.setScore(to: score)
+        }
+    }
     
 }
 
@@ -32,6 +38,9 @@ extension GameLogicManager {
         if correctNode {
             nodeWasCorrect(node)
         }
+        else {
+            nodeWasWrong(node)
+        }
         
     }
     
@@ -39,12 +48,29 @@ extension GameLogicManager {
         
         if let particles = SKEmitterNode(fileNamed: Constants.kParticleName) {
             node.addChild(particles)
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
                 particles.removeFromParent()
                 self.level += 1
                 self.delegate?.createLevel(self.level)
-            })
+            }
         }
+        
+        self.score += 1
+        
+    }
+    
+    private func nodeWasWrong(_ node: SKNode) {
+        
+        let wrongNode = SKSpriteNode(imageNamed: Constants.kWrongImageName)
+        node.addChild(wrongNode)
+        wrongNode.zPosition = 9
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            wrongNode.removeFromParent()
+            self.level = self.level - 1 == 0 ? 1 : self.level - 1
+            self.delegate?.createLevel(self.level)
+        }
+        
+        self.score -= 1
         
     }
     

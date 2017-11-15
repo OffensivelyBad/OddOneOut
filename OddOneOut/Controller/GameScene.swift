@@ -9,7 +9,7 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene, GameLogicDelegate {
+class GameScene: SKScene {
     
     var viewManager: GameViewManager?
     var logicManager: GameLogicManager?
@@ -25,10 +25,6 @@ class GameScene: SKScene, GameLogicDelegate {
         self.viewManager?.setupInitialScene()
         createLevel(self.logicManager?.level ?? 1)
 
-    }
-    
-    func createLevel(_ level: Int) {
-        self.viewManager?.createLevel(level)
     }
     
     override func willMove(from view: SKView) {
@@ -64,4 +60,16 @@ class GameScene: SKScene, GameLogicDelegate {
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
     }
+}
+
+extension GameScene: GameLogicDelegate {
+    
+    func createLevel(_ level: Int) {
+        self.viewManager?.createLevel(level)
+    }
+    
+    func setScore(to score: Int) {
+        self.viewManager?.setScore(to: score)
+    }
+    
 }

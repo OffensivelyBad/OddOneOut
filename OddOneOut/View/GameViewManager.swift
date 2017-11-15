@@ -14,7 +14,7 @@ struct GameViewManager {
     // Properties
     
     let scene: SKScene
-    
+    var scoreLabel = SKLabelNode(fontNamed: "Optima-ExtraBlack")
     
     // Computed convenience properties
     
@@ -38,6 +38,10 @@ struct GameViewManager {
         return self.squareHeight - padding
     }
     
+    init(scene: SKScene) {
+        self.scene = scene
+    }
+    
 }
 
 // MARK: - Scene setup
@@ -59,6 +63,17 @@ extension GameViewManager {
         background.name = Constants.kBackgroundName
         background.zPosition = -1
         self.scene.addChild(background)
+        
+        // Add the score label
+        self.scoreLabel.horizontalAlignmentMode = .center
+        let xPosition = -(self.sceneWidth / 2) + (self.horizontalPadding / 2)
+        let yPosition = (self.sceneHeight / 2) - (self.horizontalPadding / 2)
+        self.scoreLabel.position = CGPoint(x: xPosition, y: yPosition)
+        self.scoreLabel.zPosition = 1
+        background.addChild(self.scoreLabel)
+        
+        // Set the initial score to 0
+        setScore(to: 0)
         
     }
     
@@ -154,6 +169,10 @@ extension GameViewManager {
         
         return showPieces
         
+    }
+    
+    func setScore(to score: Int) {
+        self.scoreLabel.text = "\(score)"
     }
     
 }

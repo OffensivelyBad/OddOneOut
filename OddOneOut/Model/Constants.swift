@@ -15,6 +15,7 @@ struct Constants {
     static let kCorrectName = "correct"
     static let kWrongName = "wrong"
     static let kParticleName = "Sparks"
+    static let kWrongImageName = "wrong"
     
     // Images & textures
     static let kBackgroundImage = "background-leaves"
