@@ -59,17 +59,44 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        self.logicManager?.checkForTimeRemaining(currentTime)
     }
 }
 
 extension GameScene: GameLogicDelegate {
     
     func createLevel(_ level: Int) {
+        // Ensure users can now tap on nodes
+        self.isUserInteractionEnabled = true
         self.viewManager?.createLevel(level)
+        
+        // Reset the time for the level and start the timer
+        self.logicManager?.startTime = 0
+        self.logicManager?.isGameRunning = true
     }
     
     func setScore(to score: Int) {
         self.viewManager?.setScore(to: score)
+    }
+    
+    func playSound(_ name: String) {
+        // Prevent multiple guesses
+        self.isUserInteractionEnabled = false
+        self.viewManager?.playSound(name)
+    }
+    
+    func updateTime(_ time: Int) {
+        self.viewManager?.updateTime(time)
+    }
+    
+    func showGameOver() {
+        self.viewManager?.showGameOver()
+    }
+    
+    func restartScene() {
+        guard let scene = SKScene(fileNamed: "GameScene") else { return }
+        scene.scaleMode = .aspectFit
+        self.view?.presentScene(scene)
     }
     
 }

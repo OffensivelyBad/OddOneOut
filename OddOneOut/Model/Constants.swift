@@ -16,6 +16,11 @@ struct Constants {
     static let kWrongName = "wrong"
     static let kParticleName = "Sparks"
     static let kWrongImageName = "wrong"
+    static let kMusicName = "night-cave.mp3"
+    static let kCorrectSound = "correct-1.wav"
+    static let kWrongSound = "wrong-1.wav"
+    static let kFontName = "Optima-ExtraBlack"
+    static let kGameOverName = "gameOver2"
     
     // Images & textures
     static let kBackgroundImage = "background-leaves"
@@ -46,5 +51,6 @@ struct Constants {
     // Game rules
     static let minimumPieces = 5
     static let piecesPerLevel = 4
+    static let timePerLevel = 10.0
     
 }

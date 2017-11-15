@@ -14,7 +14,9 @@ struct GameViewManager {
     // Properties
     
     let scene: SKScene
-    var scoreLabel = SKLabelNode(fontNamed: "Optima-ExtraBlack")
+    var scoreLabel = SKLabelNode(fontNamed: Constants.kFontName)
+    var timeLabel = SKLabelNode(fontNamed: Constants.kFontName)
+    let background = SKSpriteNode(imageNamed: Constants.kBackgroundImage)
     
     // Computed convenience properties
     
@@ -55,25 +57,47 @@ extension GameViewManager {
         // Create the grid of sprites
         createGrid()
         
+        // Create score label
+        createScoreLabel()
+        
+        // Create timer label
+        createTimerLabel()
+        
+        // Start music
+        createMusic()
+        
     }
     
     private func createBackground() {
         
-        let background = SKSpriteNode(imageNamed: Constants.kBackgroundImage)
-        background.name = Constants.kBackgroundName
-        background.zPosition = -1
-        self.scene.addChild(background)
+        self.background.name = Constants.kBackgroundName
+        self.background.zPosition = -1
+        self.scene.addChild(self.background)
+        
+    }
+    
+    private func createScoreLabel() {
         
         // Add the score label
-        self.scoreLabel.horizontalAlignmentMode = .center
         let xPosition = -(self.sceneWidth / 2) + (self.horizontalPadding / 2)
         let yPosition = (self.sceneHeight / 2) - (self.horizontalPadding / 2)
         self.scoreLabel.position = CGPoint(x: xPosition, y: yPosition)
         self.scoreLabel.zPosition = 1
-        background.addChild(self.scoreLabel)
+        self.background.addChild(self.scoreLabel)
         
         // Set the initial score to 0
         setScore(to: 0)
+        
+    }
+    
+    private func createTimerLabel() {
+        
+        // Add the timer label
+        let xPosition = (self.sceneWidth / 2) - self.horizontalPadding
+        let yPosition = (self.sceneHeight / 2) - (self.horizontalPadding / 2)
+        self.timeLabel.position = CGPoint(x: xPosition, y: yPosition)
+        self.timeLabel.zPosition = 1
+        self.background.addChild(self.timeLabel)
         
     }
     
@@ -93,6 +117,13 @@ extension GameViewManager {
             }
         }
         
+    }
+    
+    private func createMusic() {
+    
+        let music = SKAudioNode(fileNamed: Constants.kMusicName)
+        self.background.addChild(music)
+    
     }
     
     public func createLevel(_ level: Int) {
@@ -140,7 +171,9 @@ extension GameViewManager {
     
     private func getWrongPiecesFrom(_ pieces: [String], for level: Int) -> [String] {
         
-        let itemsToShow = Constants.minimumPieces + (level * Constants.piecesPerLevel)
+        var itemsToShow = Constants.minimumPieces + (level * Constants.piecesPerLevel)
+        // Limit the number of pieces to the grid that was created
+        itemsToShow = min(itemsToShow, Constants.squaresHigh * Constants.squaresWide)
         
         var showPieces = [String]()
         var placingPiece = 0
@@ -172,7 +205,24 @@ extension GameViewManager {
     }
     
     func setScore(to score: Int) {
-        self.scoreLabel.text = "\(score)"
+        self.scoreLabel.text = "S: \(score)"
+    }
+    
+    func playSound(_ name: String) {
+        
+        let soundAction = SKAction.playSoundFileNamed(name, waitForCompletion: false)
+        self.scene.run(soundAction)
+        
+    }
+    
+    func showGameOver() {
+        let gameOver = SKSpriteNode(imageNamed: Constants.kGameOverName)
+        gameOver.zPosition = 100
+        self.scene.addChild(gameOver)
+    }
+    
+    func updateTime(_ time: Int) {
+        self.timeLabel.text = "T: \(time)"
     }
     
 }
