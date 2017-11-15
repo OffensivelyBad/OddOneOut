@@ -42,20 +42,7 @@ class GameScene: SKScene {
         let nodes = self.nodes(at: location)
         self.logicManager?.checkForCorrectNodeFrom(nodes)
         
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-    }
-    
+    }    
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
