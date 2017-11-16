@@ -136,36 +136,45 @@ extension GameViewManager {
         
         for item in shuffled {
             // Hide the pieces
-            item.alpha = 0
+            let fadeOut = SKAction.fadeOut(withDuration: 0.1)
+            item.run(fadeOut)
+            item.isHidden = true
         }
         
-        // Shuffle the available pieces
-        var shuffledPieces = (Constants.kAllPieces as NSArray).shuffled() as! [String]
-        
-        // Remove and store the correct piece
-        let correctPiece = shuffledPieces.removeLast()
-        
-        // Get the wrong pieces
-        let wrongPieces = getWrongPiecesFrom(shuffledPieces, for: level)
-        
-        for (index, piece) in wrongPieces.enumerated() {
-            // Pull the matching item
-            let item = shuffled[index]
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(10)) {
+            // Create an action to fade the pieces in
+            let fadeIn = SKAction.fadeIn(withDuration: 0.1)
             
-            // Assign the correct texture
-            item.texture = SKTexture(imageNamed: piece)
+            // Shuffle the available pieces
+            var shuffledPieces = (Constants.kAllPieces as NSArray).shuffled() as! [String]
             
-            // Show the piece
-            item.alpha = 1
+            // Remove and store the correct piece
+            let correctPiece = shuffledPieces.removeLast()
             
-            // Mark it as the wrong piece
-            item.name = Constants.kWrongName
+            // Get the wrong pieces
+            let wrongPieces = self.getWrongPiecesFrom(shuffledPieces, for: level)
+            
+            for (index, piece) in wrongPieces.enumerated() {
+                // Pull the matching item
+                let item = shuffled[index]
+                
+                // Assign the correct texture
+                item.texture = SKTexture(imageNamed: piece)
+                
+                // Show the piece
+                item.run(fadeIn)
+                item.isHidden = false
+                
+                // Mark it as the wrong piece
+                item.name = Constants.kWrongName
+            }
+            
+            // Add a single correct piece
+            shuffled.last?.texture = SKTexture(imageNamed: correctPiece)
+            shuffled.last?.run(fadeIn)
+            shuffled.last?.isHidden = false
+            shuffled.last?.name = Constants.kCorrectName
         }
-        
-        // Add a single correct piece
-        shuffled.last?.texture = SKTexture(imageNamed: correctPiece)
-        shuffled.last?.alpha = 1
-        shuffled.last?.name = Constants.kCorrectName
         
     }
     
@@ -216,9 +225,17 @@ extension GameViewManager {
     }
     
     func showGameOver() {
+        // Animations to run on the game over sprite
+        let scaleDown = SKAction.scale(to: 0.001, duration: 0)
+        let fadeIn = SKAction.fadeIn(withDuration: 0.25)
+        let scaleUp = SKAction.scale(to: 1, duration: 0.25)
+        let afterGroup = SKAction.group([fadeIn, scaleUp])
+        let sequence = SKAction.sequence([scaleDown, afterGroup])
+        
         let gameOver = SKSpriteNode(imageNamed: Constants.kGameOverName)
         gameOver.zPosition = 100
         self.scene.addChild(gameOver)
+        gameOver.run(sequence)
     }
     
     func updateTime(_ time: Int) {
